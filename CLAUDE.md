@@ -23,7 +23,8 @@ The framework is designed to work across multiple environments (staging, product
 
 ## 📋 Operational Workflows & Golden Rules
 
-1. **Security First**: Never expose keys/tokens in logs or commits.
+1. **Branch & PR Policy**: NEVER push directly to `main`. Create a feature branch (`feat/`, `fix/`, `chore/`), push it, and create a Pull Request. Merge only after CI (Lint/Tests) passes.
+2. **Security First**: Never expose keys/tokens in logs or commits.
 2. **Atomic Tests**: Each test must be independent and handle its own data lifecycle (setup/teardown).
 3. **Explicit Waits**: Avoid hardcoded timeouts; use Playwright's built-in auto-waiting or explicit `waitForResponse`/`waitForNavigation`.
 4. **Validation**: Use Zod schemas for all API response validations (Contract Testing).

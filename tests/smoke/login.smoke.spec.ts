@@ -1,7 +1,7 @@
 import { test, expect } from '../../src/fixtures';
 
 test.describe('OrangeHRM - Employee Management (PIM)', () => {
-  test.beforeEach(async ({ authenticatedPage }) => {
+  test.beforeEach(async ({ authenticatedPage: _ }) => {
     // Already logged in via fixture
   });
 

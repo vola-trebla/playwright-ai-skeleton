@@ -64,7 +64,7 @@ class SlackReporter implements Reporter {
           type: 'mrkdwn',
           text: `*Failures:*\n${this.failures.slice(0, 10).join('\n')}`,
         },
-      } as any);
+      } as { type: string; text: { type: string; text: string } });
     }
 
     try {
