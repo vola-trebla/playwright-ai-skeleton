@@ -9,3 +9,4 @@ videos/
 .env
 .npm_cache
 .claude/settings.local.json
+plan.md
