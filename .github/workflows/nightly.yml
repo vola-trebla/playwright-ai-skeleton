@@ -1,22 +1,23 @@
-name: Nightly Regression
+name: Nightly & Manual Regression
 
 on:
   schedule:
     - cron: '0 2 * * *'
+  workflow_dispatch: # Allows manual trigger
 
 jobs:
   regression:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: [1, 2]
     container:
       image: mcr.microsoft.com/playwright:v1.44.0-jammy
 
     steps:
       - uses: actions/checkout@v4
       - run: npm ci
-      - run: npx playwright test --project=regression-chrome --shard=${{ matrix.shard }}/4
+      - run: npx playwright test --project=regression-chrome --shard=${{ matrix.shard }}/2
         env:
           BASE_URL: ${{ secrets.STAGING_URL }}
           API_URL: ${{ secrets.API_URL }}
