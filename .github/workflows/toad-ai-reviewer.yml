@@ -1,0 +1,30 @@
+name: Toad AI Reviewer 🐸
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  pr_agent:
+    runs-on: ubuntu-latest
+    name: Run PR Agent
+    # Запускаем на событиях PR или когда кто-то пишет команду в комментариях
+    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/')) }}
+    steps:
+      - name: PR Agent action
+        uses: Codium-ai/pr-agent@main
+        env:
+          # Для работы с Anthropic
+          ANTHROPIC_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CONFIG.MODEL: "claude-3-5-sonnet-20240620"
+          # Токен гитхаба для комментов
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Основные настройки
+          PR_REVIEWER.REQUIRE_SCORE_REVIEW: "false"
+          PR_REVIEWER.ENABLE_REVIEW_LABELS_SECURITY: "false"

@@ -1,4 +1,4 @@
-import { test } from '../../src/fixtures';
+import { test } from '@/fixtures';
 
 test.describe('OrangeHRM - Employee Management (PIM)', () => {
   test.beforeEach(async ({ authenticatedPage: _ }) => {

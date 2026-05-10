@@ -1,7 +1,7 @@
 import { Page, Locator } from '@playwright/test';
-import { BaseComponent } from '../core/base.component';
-import { UIElement } from '../core/ui-element';
-import { step } from '../core/step';
+import { BaseComponent } from '@/core/base.component';
+import { UIElement } from '@/core/ui-element';
+import { step } from '@/core/step';
 
 export class TableComponent extends BaseComponent {
   readonly rows: UIElement;
