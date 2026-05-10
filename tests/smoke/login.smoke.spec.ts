@@ -1,16 +1,9 @@
 import { test } from '@/fixtures';
 
 test.describe('OrangeHRM - Employee Management (PIM)', () => {
-  test.beforeEach(async ({ authenticatedPage: _ }) => {
-    // Already logged in via fixture
-  });
-
-  test('должен искать сотрудника по ID', async ({ pimListPage }) => {
+  test('должен искать сотрудника по ID', async ({ authenticatedPage: _, pimListPage }) => {
     await pimListPage.navigate();
-
-    // В демо-данных обычно есть ID 0001
     await pimListPage.searchEmployeeById('0001');
-
     await pimListPage.table.shouldNotBeEmpty();
   });
 });

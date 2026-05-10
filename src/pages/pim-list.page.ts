@@ -30,7 +30,7 @@ export class PIMListPage extends BasePage {
   async searchEmployeeById(id: string): Promise<void> {
     await this.employeeIdInput.fill(id);
     await this.searchBtn.click();
-    await this.table.waitForData();
+    await this.page.waitForLoadState('networkidle');
   }
 
   async deleteFirstResult(): Promise<void> {

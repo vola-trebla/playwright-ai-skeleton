@@ -20,6 +20,10 @@ export class TableComponent extends BaseComponent {
     await this.firstRow.shouldBeVisible();
   }
 
+  async shouldHaveCount(count: number) {
+    await this.rows.shouldHaveCount(count);
+  }
+
   async getRowCount(): Promise<number> {
     return await step('Получение количества строк в таблице', () => this.rows.locator.count());
   }
