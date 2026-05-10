@@ -1,14 +1,8 @@
 import { randomUUID } from 'crypto';
-
-export interface Employee {
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  employeeId: string;
-}
+import { CreateEmployeeRequest, createEmployeeRequestSchema } from '@/api/schemas/employee.schema';
 
 export class EmployeeBuilder {
-  private employee: Employee = {
+  private request: CreateEmployeeRequest = {
     firstName: 'Test',
     middleName: '',
     lastName: `Employee-${randomUUID().slice(0, 8)}`,
@@ -16,26 +10,26 @@ export class EmployeeBuilder {
   };
 
   withFirstName(firstName: string): this {
-    this.employee.firstName = firstName;
+    this.request.firstName = firstName;
     return this;
   }
 
   withLastName(lastName: string): this {
-    this.employee.lastName = lastName;
+    this.request.lastName = lastName;
     return this;
   }
 
   withMiddleName(middleName: string): this {
-    this.employee.middleName = middleName;
+    this.request.middleName = middleName;
     return this;
   }
 
   withEmployeeId(employeeId: string): this {
-    this.employee.employeeId = employeeId;
+    this.request.employeeId = employeeId;
     return this;
   }
 
-  build(): Employee {
-    return { ...this.employee };
+  build(): CreateEmployeeRequest {
+    return createEmployeeRequestSchema.parse({ ...this.request });
   }
 }

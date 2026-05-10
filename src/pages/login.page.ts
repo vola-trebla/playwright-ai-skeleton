@@ -1,6 +1,8 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from '@/core/base.page';
 import { Routes } from '@/constants/routes';
+import { LoginLabels } from '@/constants/login';
+import { LoginMessages, AppMessages } from '@/constants/messages';
 import { step } from '@/core/step';
 
 export class LoginPage extends BasePage {
@@ -18,9 +20,9 @@ export class LoginPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this._logo = page.locator('.orangehrm-login-branding img');
-    this._usernameInput = page.getByPlaceholder('Username');
-    this._passwordInput = page.getByPlaceholder('Password');
-    this._loginBtn = page.getByRole('button', { name: 'Login' });
+    this._usernameInput = page.getByPlaceholder(LoginLabels.username);
+    this._passwordInput = page.getByPlaceholder(LoginLabels.password);
+    this._loginBtn = page.getByRole('button', { name: LoginLabels.loginButton });
     this._forgotPasswordLink = page.locator('.orangehrm-login-forgot-header');
     this._socialIcons = page.locator('.orangehrm-login-footer-sm a');
     this._copyrightText = page.locator('.orangehrm-copyright-wrapper');
@@ -64,15 +66,15 @@ export class LoginPage extends BasePage {
 
   async assertFooterVisible(): Promise<void> {
     await step('Проверка футера страницы входа', async () => {
-      await expect(this._forgotPasswordLink).toContainText('Forgot your password?');
+      await expect(this._forgotPasswordLink).toContainText(LoginMessages.forgotPasswordPrompt);
       await expect(this._socialIcons).toHaveCount(4);
-      await expect(this._copyrightText).toContainText('OrangeHRM OS 5.8');
+      await expect(this._copyrightText).toContainText(AppMessages.copyrightVersion);
     });
   }
 
   async assertInvalidCredentialsShown(): Promise<void> {
     await step('Проверка сообщения об ошибке', () =>
-      expect(this._errorMessage).toContainText('Invalid credentials')
+      expect(this._errorMessage).toContainText(LoginMessages.invalidCredentials)
     );
   }
 

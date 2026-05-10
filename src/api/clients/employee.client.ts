@@ -1,6 +1,10 @@
 import { APIRequestContext } from '@playwright/test';
-import { Employee } from '@/helpers/builders/employee.builder';
-import { employeeResponseSchema, EmployeeResponse } from '@/api/schemas/employee.schema';
+import {
+  Employee,
+  CreateEmployeeRequest,
+  UpdateEmployeeNameRequest,
+  employeeResponseEnvelopeSchema,
+} from '@/api/schemas/employee.schema';
 import { ApiEndpoints } from '@/constants/api-endpoints';
 import { BaseApiClient } from './base.client';
 
@@ -9,16 +13,9 @@ export class EmployeeApiClient extends BaseApiClient {
     super(request);
   }
 
-  async create(employee: Employee): Promise<EmployeeResponse> {
-    const response = await this.request.post(ApiEndpoints.pim.employees, {
-      data: {
-        firstName: employee.firstName,
-        middleName: employee.middleName,
-        lastName: employee.lastName,
-        employeeId: employee.employeeId,
-      },
-    });
-    return this.parseResponse(response, employeeResponseSchema);
+  async create(request: CreateEmployeeRequest): Promise<Employee> {
+    const response = await this.request.post(ApiEndpoints.pim.employees, { data: request });
+    return this.parseResponse(response, employeeResponseEnvelopeSchema);
   }
 
   async deleteMultiple(empNumbers: number[]): Promise<void> {
@@ -30,19 +27,16 @@ export class EmployeeApiClient extends BaseApiClient {
     }
   }
 
-  async updateName(
-    empNumber: number,
-    firstName: string,
-    lastName: string
-  ): Promise<EmployeeResponse> {
+  async updateName(empNumber: number, firstName: string, lastName: string): Promise<Employee> {
+    const request: UpdateEmployeeNameRequest = { firstName, lastName, middleName: '' };
     const response = await this.request.put(ApiEndpoints.pim.personalDetails(empNumber), {
-      data: { firstName, lastName, middleName: '' },
+      data: request,
     });
-    return this.parseResponse(response, employeeResponseSchema);
+    return this.parseResponse(response, employeeResponseEnvelopeSchema);
   }
 
-  async getById(empNumber: number): Promise<EmployeeResponse> {
+  async getById(empNumber: number): Promise<Employee> {
     const response = await this.request.get(ApiEndpoints.pim.employee(empNumber));
-    return this.parseResponse(response, employeeResponseSchema);
+    return this.parseResponse(response, employeeResponseEnvelopeSchema);
   }
 }

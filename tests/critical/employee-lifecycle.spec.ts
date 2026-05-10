@@ -1,6 +1,7 @@
 import { test } from '@/fixtures';
+import { TestTags } from '@/constants/test-tags';
 
-test.describe('Employee Lifecycle', () => {
+test.describe('Employee Lifecycle', { tag: [TestTags.critical, TestTags.pim] }, () => {
   test('созданный через API сотрудник отображается в PIM списке', async ({
     testEmployee,
     pimListPage,
@@ -26,7 +27,7 @@ test.describe('Employee Lifecycle', () => {
     await pimListPage.navigate();
     await pimListPage.searchEmployeeById(testEmployee.employeeId!);
     await pimListPage.assertEmployeeVisible(testEmployee);
-    await pimListPage.deleteFirstResult();
+    await pimListPage.deleteEmployeeById(testEmployee.employeeId!);
     await pimListPage.assertEmployeeAbsent(testEmployee.employeeId!);
   });
 });

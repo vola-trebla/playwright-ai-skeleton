@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+// --- Domain entity ---
+
 export const employeeSchema = z.object({
   empNumber: z.number(),
   firstName: z.string(),
@@ -8,9 +10,31 @@ export const employeeSchema = z.object({
   employeeId: z.string().nullable(),
   terminationDate: z.string().nullish(),
 });
+export type Employee = z.infer<typeof employeeSchema>;
 
-export const employeeResponseSchema = z.object({
+// Backwards-compatible alias
+export type EmployeeResponse = Employee;
+
+// --- Response envelopes ---
+
+export const employeeResponseEnvelopeSchema = z.object({
   data: employeeSchema,
 });
+export type EmployeeResponseEnvelope = z.infer<typeof employeeResponseEnvelopeSchema>;
 
-export type EmployeeResponse = z.infer<typeof employeeSchema>;
+// --- Request payloads ---
+
+export const createEmployeeRequestSchema = z.object({
+  firstName: z.string().min(1),
+  middleName: z.string(),
+  lastName: z.string().min(1),
+  employeeId: z.string().min(1),
+});
+export type CreateEmployeeRequest = z.infer<typeof createEmployeeRequestSchema>;
+
+export const updateEmployeeNameRequestSchema = z.object({
+  firstName: z.string().min(1),
+  middleName: z.string(),
+  lastName: z.string().min(1),
+});
+export type UpdateEmployeeNameRequest = z.infer<typeof updateEmployeeNameRequestSchema>;
