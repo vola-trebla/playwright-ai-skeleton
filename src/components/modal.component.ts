@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
-import { BaseComponent } from '../core/base.component';
-import { UIElement } from '../core/ui-element';
+import { BaseComponent } from '@/core/base.component';
+import { UIElement } from '@/core/ui-element';
 
 export class ModalComponent extends BaseComponent {
   readonly title: UIElement;

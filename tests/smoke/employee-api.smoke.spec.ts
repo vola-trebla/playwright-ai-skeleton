@@ -1,4 +1,4 @@
-import { test } from '../../src/fixtures';
+import { test } from '@/fixtures';
 
 test.describe('Employee API fixture - smoke', () => {
   test('создаёт сотрудника через API и находит его в списке', async ({

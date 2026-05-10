@@ -1,12 +1,12 @@
 import { test as base, expect, Page } from '@playwright/test';
-import { LoginPage } from '../pages/login.page';
-import { PIMListPage } from '../pages/pim-list.page';
-import { EmployeeDetailPage } from '../pages/employee-detail.page';
-import { config } from '../config/env.config';
-import { EmployeeApiClient } from '../api/clients/employee.client';
-import { EmployeeBuilder } from '../helpers/builders/employee.builder';
-import type { EmployeeResponse } from '../api/schemas/employee.schema';
-import { Routes } from '../constants/routes';
+import { LoginPage } from '@/pages/login.page';
+import { PIMListPage } from '@/pages/pim-list.page';
+import { EmployeeDetailPage } from '@/pages/employee-detail.page';
+import { config } from '@/config/env.config';
+import { EmployeeApiClient } from '@/api/clients/employee.client';
+import { EmployeeBuilder } from '@/helpers/builders/employee.builder';
+import type { EmployeeResponse } from '@/api/schemas/employee.schema';
+import { Routes } from '@/constants/routes';
 import * as fs from 'fs';
 import * as path from 'path';
 

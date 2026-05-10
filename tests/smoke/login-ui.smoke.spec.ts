@@ -1,4 +1,4 @@
-import { test } from '../../src/fixtures';
+import { test } from '@/fixtures';
 
 test.describe('OrangeHRM - Login Page UI Verification', () => {
   test.beforeEach(async ({ loginPage }) => {
