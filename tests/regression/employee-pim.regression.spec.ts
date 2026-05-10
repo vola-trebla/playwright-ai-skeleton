@@ -1,6 +1,7 @@
 import { test } from '@/fixtures';
+import { TestTags } from '@/constants/test-tags';
 
-test.describe('Employee PIM - Regression', () => {
+test.describe('Employee PIM - Regression', { tag: [TestTags.regression, TestTags.pim] }, () => {
   test('полный цикл редактирования сотрудника отражается в UI', async ({
     testEmployee,
     employeeDetailPage,

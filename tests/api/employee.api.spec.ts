@@ -1,6 +1,7 @@
-import { test, expect } from '@/fixtures';
+import { apiTest as test, expect } from '@/fixtures';
+import { TestTags } from '@/constants/test-tags';
 
-test.describe('Employee API', () => {
+test.describe('Employee API', { tag: [TestTags.api, TestTags.pim] }, () => {
   test('создание сотрудника возвращает валидную структуру', async ({ testEmployee }) => {
     expect(testEmployee.empNumber).toBeGreaterThan(0);
     expect(testEmployee.firstName).toBe('Test');

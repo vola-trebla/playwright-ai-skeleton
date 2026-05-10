@@ -1,29 +1,30 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from '@/core/base.page';
-import { TableComponent } from '@/components/table.component';
-import { ModalComponent } from '@/components/modal.component';
+import { OrangeTable } from '@/components/orange-table.component';
+import { OrangeConfirmModal } from '@/components/orange-confirm-modal.component';
 import { Routes } from '@/constants/routes';
 import { ApiEndpoints } from '@/constants/api-endpoints';
+import { PIMLabels } from '@/constants/pim';
 import { step } from '@/core/step';
 import type { EmployeeResponse } from '@/api/schemas/employee.schema';
 
 export class PIMListPage extends BasePage {
   readonly url = Routes.pim.list;
 
-  private readonly table: TableComponent;
-  private readonly deleteModal: ModalComponent;
+  private readonly table: OrangeTable;
+  private readonly deleteModal: OrangeConfirmModal;
   private readonly _employeeIdInput: Locator;
   private readonly _searchBtn: Locator;
   private readonly _tableCards: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.table = new TableComponent(page, '.oxd-table');
-    this.deleteModal = new ModalComponent(page);
+    this.table = new OrangeTable(page, '.oxd-table');
+    this.deleteModal = new OrangeConfirmModal(page);
     this._employeeIdInput = page
-      .locator('form .oxd-input-group', { hasText: 'Employee Id' })
+      .locator('form .oxd-input-group', { hasText: PIMLabels.employeeId })
       .locator('input');
-    this._searchBtn = page.getByRole('button', { name: 'Search' });
+    this._searchBtn = page.getByRole('button', { name: PIMLabels.search });
     this._tableCards = page.locator('.oxd-table-body .oxd-table-card');
   }
 
@@ -40,9 +41,10 @@ export class PIMListPage extends BasePage {
     });
   }
 
-  async deleteFirstResult(): Promise<void> {
-    await step('Удаление первого результата в таблице', async () => {
-      await this.table.deleteRow(0);
+  async deleteEmployeeById(employeeId: string): Promise<void> {
+    await step(`Удаление сотрудника по ID: ${employeeId}`, async () => {
+      const row = this.employeeRowById(employeeId);
+      await row.locator('button:has(i.bi-trash)').click();
       await this.deleteModal.confirm();
     });
   }

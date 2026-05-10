@@ -1,8 +1,9 @@
 import { test, expect } from '@/fixtures';
 import { ApiEndpoints } from '@/constants/api-endpoints';
 import { config } from '@/config/env.config';
+import { TestTags } from '@/constants/test-tags';
 
-test.describe('Login - Negative Scenarios', () => {
+test.describe('Login - Negative Scenarios', { tag: [TestTags.regression, TestTags.auth] }, () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 
   test('неверный пароль показывает сообщение об ошибке', async ({ loginPage }) => {

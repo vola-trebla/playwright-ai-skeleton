@@ -1,6 +1,7 @@
 import { test } from '@/fixtures';
+import { TestTags } from '@/constants/test-tags';
 
-test.describe('OrangeHRM - Login Page UI Smoke', () => {
+test.describe('OrangeHRM - Login Page UI Smoke', { tag: [TestTags.smoke, TestTags.auth] }, () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 
   test.beforeEach(async ({ loginPage }) => {
