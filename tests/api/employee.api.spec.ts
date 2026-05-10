@@ -1,4 +1,4 @@
-import { test, expect } from '../../src/fixtures';
+import { test, expect } from '@/fixtures';
 
 test.describe('Employee API', () => {
   test('создание сотрудника возвращает валидную структуру', async ({

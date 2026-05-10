@@ -1,5 +1,5 @@
 import { Page, Locator } from '@playwright/test';
-import { config } from '../config/env.config';
+import { config } from '@/config/env.config';
 import { UIElement } from './ui-element';
 import { step } from './step';
 

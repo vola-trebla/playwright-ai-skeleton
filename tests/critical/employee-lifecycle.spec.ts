@@ -1,4 +1,4 @@
-import { test, expect } from '../../src/fixtures';
+import { test, expect } from '@/fixtures';
 
 test.describe('Employee Lifecycle', () => {
   test('созданный через API сотрудник отображается в PIM списке', async ({

@@ -1,7 +1,7 @@
 import { APIRequestContext } from '@playwright/test';
-import { Employee } from '../../helpers/builders/employee.builder';
-import { employeeResponseSchema, EmployeeResponse } from '../schemas/employee.schema';
-import { ApiEndpoints } from '../../constants/api-endpoints';
+import { Employee } from '@/helpers/builders/employee.builder';
+import { employeeResponseSchema, EmployeeResponse } from '@/api/schemas/employee.schema';
+import { ApiEndpoints } from '@/constants/api-endpoints';
 
 export class EmployeeApiClient {
   constructor(private readonly request: APIRequestContext) {}

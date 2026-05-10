@@ -1,9 +1,9 @@
 import { Page } from '@playwright/test';
-import { BasePage } from '../core/base.page';
-import { TableComponent } from '../components/table.component';
-import { ModalComponent } from '../components/modal.component';
-import { UIElement } from '../core/ui-element';
-import { Routes } from '../constants/routes';
+import { BasePage } from '@/core/base.page';
+import { TableComponent } from '@/components/table.component';
+import { ModalComponent } from '@/components/modal.component';
+import { UIElement } from '@/core/ui-element';
+import { Routes } from '@/constants/routes';
 
 export class PIMListPage extends BasePage {
   readonly url = Routes.pim.list;

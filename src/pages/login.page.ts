@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
-import { BasePage } from '../core/base.page';
-import { UIElement } from '../core/ui-element';
-import { Routes } from '../constants/routes';
+import { BasePage } from '@/core/base.page';
+import { UIElement } from '@/core/ui-element';
+import { Routes } from '@/constants/routes';
 
 export class LoginPage extends BasePage {
   readonly url = Routes.auth.login;

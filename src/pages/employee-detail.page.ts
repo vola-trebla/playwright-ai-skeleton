@@ -1,8 +1,8 @@
 import { Page } from '@playwright/test';
-import { BasePage } from '../core/base.page';
-import { UIElement } from '../core/ui-element';
-import { config } from '../config/env.config';
-import { Routes } from '../constants/routes';
+import { BasePage } from '@/core/base.page';
+import { UIElement } from '@/core/ui-element';
+import { config } from '@/config/env.config';
+import { Routes } from '@/constants/routes';
 
 export class EmployeeDetailPage extends BasePage {
   readonly url = Routes.pim.list;
