@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 export interface Employee {
   firstName: string;
   middleName: string;
@@ -9,8 +11,8 @@ export class EmployeeBuilder {
   private employee: Employee = {
     firstName: 'Test',
     middleName: '',
-    lastName: `Employee-${Date.now()}`,
-    employeeId: `E${Math.floor(Math.random() * 90000) + 10000}`,
+    lastName: `Employee-${randomUUID().slice(0, 8)}`,
+    employeeId: `E${randomUUID().replace(/-/g, '').slice(0, 5)}`,
   };
 
   withFirstName(firstName: string): this {

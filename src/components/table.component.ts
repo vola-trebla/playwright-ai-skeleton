@@ -10,7 +10,6 @@ export class TableComponent extends BaseComponent {
   constructor(page: Page, containerSelector: string = '.oxd-table') {
     super(page, containerSelector);
 
-    // Поддержка OrangeHRM (.oxd-table-card) и классики (tr)
     const rowSelector = 'tbody tr, .oxd-table-body .oxd-table-card';
     this.rows = this.element(rowSelector, 'Table Rows');
     this.firstRow = this.element(`${rowSelector}:first-child`, 'First Table Row');
@@ -18,10 +17,6 @@ export class TableComponent extends BaseComponent {
 
   async shouldNotBeEmpty() {
     await this.firstRow.shouldBeVisible();
-  }
-
-  async shouldHaveCount(count: number) {
-    await this.rows.shouldHaveCount(count);
   }
 
   async getRowCount(): Promise<number> {
@@ -33,7 +28,6 @@ export class TableComponent extends BaseComponent {
   }
 
   async getCellValue(row: number, column: number): Promise<string> {
-    // Для OrangeHRM ячейки — это .oxd-table-cell
     return this.rows.locator.nth(row).locator('.oxd-table-cell, td').nth(column).innerText();
   }
 
@@ -43,6 +37,11 @@ export class TableComponent extends BaseComponent {
       `Column Header: ${columnName}`
     );
     await columnHeader.click();
+  }
+
+  async deleteRow(index: number): Promise<void> {
+    const deleteBtn = this.rows.locator.nth(index).locator('button:has(i.bi-trash)');
+    await new UIElement(deleteBtn, `Delete button for row ${index}`).click();
   }
 
   async waitForData(): Promise<void> {

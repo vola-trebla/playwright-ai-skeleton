@@ -1,15 +1,11 @@
 import { Locator, expect } from '@playwright/test';
 import { step } from './step';
 
-/**
- * Обертка над локатором Playwright для удобных ассертов и действий.
- * Позволяет писать тесты в стиле Selenide: element.shouldBeVisible()
- * Автоматически логирует шаги в Allure.
- */
 export class UIElement {
   constructor(
     public readonly locator: Locator,
-    private readonly name: string
+    private readonly name: string,
+    private readonly options: { secret?: boolean } = {}
   ) {}
 
   async shouldBeVisible() {
@@ -77,15 +73,13 @@ export class UIElement {
   }
 
   async shouldHaveCountGreaterThan(count: number) {
-    await step(`Проверка, что количество элементов "${this.name}" больше ${count}`, () =>
-      expect(async () => {
-        const actualCount = await this.locator.count();
-        expect(
-          actualCount,
-          `Количество элементов "${this.name}" должно быть больше ${count}, но было ${actualCount}`
-        ).toBeGreaterThan(count);
-      }, `Ожидание, что количество элементов "${this.name}" станет больше ${count}`).toPass()
-    );
+    await step(`Проверка, что количество элементов "${this.name}" больше ${count}`, async () => {
+      const actualCount = await this.locator.count();
+      expect(
+        actualCount,
+        `Количество элементов "${this.name}" должно быть больше ${count}, но было ${actualCount}`
+      ).toBeGreaterThan(count);
+    });
   }
 
   async shouldHaveValue(value: string | RegExp) {
@@ -96,13 +90,12 @@ export class UIElement {
     );
   }
 
-  // Прокси для основных действий
   async click() {
     await step(`Клик по элементу "${this.name}"`, () => this.locator.click());
   }
 
   async fill(value: string) {
-    const displayValue = this.name.toLowerCase().includes('password') ? '********' : value;
+    const displayValue = this.options.secret ? '********' : value;
     await step(`Ввод значения "${displayValue}" в элемент "${this.name}"`, () =>
       this.locator.fill(value)
     );

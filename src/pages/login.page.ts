@@ -20,7 +20,7 @@ export class LoginPage extends BasePage {
     // Использование хелпера element()
     this.logo = this.element('.orangehrm-login-branding img', 'Logo');
     this.usernameInput = this.element('input[name="username"]', 'Username Input');
-    this.passwordInput = this.element('input[name="password"]', 'Password Input');
+    this.passwordInput = this.element('input[name="password"]', 'Password Input', { secret: true });
     this.loginBtn = this.element('button[type="submit"]', 'Login Button');
     this.forgotPasswordLink = this.element(
       '.orangehrm-login-forgot-header',
