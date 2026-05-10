@@ -8,8 +8,8 @@ export abstract class BasePage {
 
   abstract readonly url: string;
 
-  protected element(selector: string, name: string): UIElement {
-    return new UIElement(this.page.locator(selector), name);
+  protected element(selector: string, name: string, options?: { secret?: boolean }): UIElement {
+    return new UIElement(this.page.locator(selector), name, options);
   }
 
   async navigate(): Promise<void> {

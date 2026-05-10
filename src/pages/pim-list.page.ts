@@ -38,7 +38,7 @@ export class PIMListPage extends BasePage {
   }
 
   async deleteFirstResult(): Promise<void> {
-    await this.page.locator('.oxd-table-card button:has(i.bi-trash)').first().click();
+    await this.table.deleteRow(0);
     await this.deleteModal.confirm();
   }
 }

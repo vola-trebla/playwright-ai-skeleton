@@ -4,8 +4,8 @@ test.describe('Employee API', () => {
   test('создание сотрудника возвращает валидную структуру', async ({ testEmployee }) => {
     expect(testEmployee.empNumber).toBeGreaterThan(0);
     expect(testEmployee.firstName).toBe('Test');
-    expect(testEmployee.lastName).toMatch(/^Employee-\d+$/);
-    expect(testEmployee.employeeId).toMatch(/^E\d{5}$/);
+    expect(testEmployee.lastName).toMatch(/^Employee-[a-f0-9]{8}$/);
+    expect(testEmployee.employeeId).toMatch(/^E[a-f0-9]{5}$/);
   });
 
   test('обновление имени через API отражается в GET запросе', async ({
