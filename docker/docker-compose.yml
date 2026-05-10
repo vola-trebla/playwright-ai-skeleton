@@ -9,7 +9,7 @@ services:
     environment:
       - BASE_URL=${BASE_URL}
       - API_URL=${API_URL}
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     volumes:
       - ../results/shard-1:/app/test-results
@@ -22,7 +22,7 @@ services:
     environment:
       - BASE_URL=${BASE_URL}
       - API_URL=${API_URL}
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     volumes:
       - ../results/shard-2:/app/test-results
