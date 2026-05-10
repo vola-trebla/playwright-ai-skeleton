@@ -1,10 +1,16 @@
 import { Page, Locator } from '@playwright/test';
 import { config } from '../config/env.config';
+import { UIElement } from './ui-element';
 
 export abstract class BasePage {
   constructor(protected readonly page: Page) {}
 
   abstract readonly url: string;
+
+  // Хелпер для создания обернутых элементов
+  protected element(selector: string, name: string): UIElement {
+    return new UIElement(this.page.locator(selector), name);
+  }
 
   async navigate(): Promise<void> {
     await this.page.goto(`${config.BASE_URL}${this.url}`);
