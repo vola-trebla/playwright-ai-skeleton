@@ -1,11 +1,13 @@
 import { Page } from '@playwright/test';
 import { BasePage } from '../core/base.page';
 import { TableComponent } from '../components/table.component';
+import { ModalComponent } from '../components/modal.component';
 import { UIElement } from '../core/ui-element';
 
 export class PIMListPage extends BasePage {
   readonly url = '/web/index.php/pim/viewEmployeeList';
   readonly table: TableComponent;
+  readonly deleteModal: ModalComponent;
 
   readonly employeeIdInput: UIElement;
   readonly searchBtn: UIElement;
@@ -14,6 +16,7 @@ export class PIMListPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.table = new TableComponent(page, '.oxd-table');
+    this.deleteModal = new ModalComponent(page);
 
     this.employeeIdInput = this.element(
       'form .oxd-input-group:has-text("Employee Id") input',
@@ -27,5 +30,10 @@ export class PIMListPage extends BasePage {
     await this.employeeIdInput.fill(id);
     await this.searchBtn.click();
     await this.table.waitForData();
+  }
+
+  async deleteFirstResult(): Promise<void> {
+    await this.page.locator('.oxd-table-card button:has(i.bi-trash)').first().click();
+    await this.deleteModal.confirm();
   }
 }

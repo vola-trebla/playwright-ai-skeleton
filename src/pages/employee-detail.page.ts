@@ -1,6 +1,7 @@
 import { Page } from '@playwright/test';
 import { BasePage } from '../core/base.page';
 import { UIElement } from '../core/ui-element';
+import { config } from '../config/env.config';
 
 export class EmployeeDetailPage extends BasePage {
   readonly url = '/web/index.php/pim/viewPersonalDetails';
@@ -22,12 +23,23 @@ export class EmployeeDetailPage extends BasePage {
       '.oxd-input-group:has-text("Employee Id") input',
       'Employee Id Input'
     );
-    this.saveBtn = this.element('button[type="submit"]', 'Save Button');
+    this.saveBtn = this.element(
+      '.oxd-form:has(input[name="firstName"]) button[type="submit"]',
+      'Save Button'
+    );
+  }
+
+  async navigateToEmployee(empNumber: number): Promise<void> {
+    await this.page.goto(
+      `${config.BASE_URL}/web/index.php/pim/viewPersonalDetails/empNumber/${empNumber}`
+    );
+    await this.page.waitForLoadState('networkidle');
   }
 
   async updateName(first: string, last: string): Promise<void> {
     await this.firstNameInput.fill(first);
     await this.lastNameInput.fill(last);
     await this.saveBtn.click();
+    await this.page.waitForLoadState('networkidle');
   }
 }
