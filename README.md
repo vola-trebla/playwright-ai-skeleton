@@ -1,4 +1,4 @@
-# 🐸 AQA-TOAD-SKELETON
+# AQA-TOAD-SKELETON
 
 Ultimate SDET Framework Skeleton | Playwright + TypeScript + Zod | OrangeHRM Demo
 
