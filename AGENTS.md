@@ -18,7 +18,7 @@ This file defines the foundational identity and workflows for the AQA-TOAD-SKELE
 
 ## 📋 Operational Workflows & Golden Rules
 
-1. **Git Workflow Manifesto**: Strictly follow the [Git Workflow Manifesto](.Codex/rules/git-workflow-manifesto.md) for all repository operations.
+1. **Git Workflow Manifesto**: Strictly follow the [Git Workflow Manifesto](.claude/rules/git-workflow-manifesto.md) for all repository operations.
 2. **Branch & PR Policy**: **NEVER push directly to `main`**. All changes must go through a feature branch and a Pull Request.
 3. **Commit Hygiene**: Husky + lint-staged will automatically run Prettier. Ensure all lint/type checks pass before pushing.
 4. **Security First**: Never hardcode credentials. Use `.env` (ignored by git) and validate via `src/config/env.config.ts`.
