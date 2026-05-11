@@ -5,6 +5,7 @@ import { OrangeConfirmModal } from '@/components/orange-confirm-modal.component'
 import { Routes } from '@/constants/routes';
 import { ApiEndpoints } from '@/constants/api-endpoints';
 import { PIMLabels } from '@/constants/pim';
+import { OXD } from '@/constants/oxd-selectors';
 import { step } from '@/core/step';
 import type { CreatedEmployee } from '@/api/schemas/employee.schema';
 
@@ -15,17 +16,16 @@ export class PIMListPage extends StaticRoutePage {
   private readonly deleteModal: OrangeConfirmModal;
   private readonly employeeIdInput: Locator;
   private readonly searchBtn: Locator;
-  private readonly tableCards: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.table = new OrangeTable(page, '.oxd-table');
+    this.table = new OrangeTable(page);
     this.deleteModal = new OrangeConfirmModal(page);
+    // OXD forms do not link <label for> - locate input by sibling label text.
     this.employeeIdInput = page
-      .locator('form .oxd-input-group', { hasText: PIMLabels.employeeId })
+      .locator(`form ${OXD.form.inputGroup}`, { hasText: PIMLabels.employeeId })
       .locator('input');
     this.searchBtn = page.getByRole('button', { name: PIMLabels.search });
-    this.tableCards = page.locator('.oxd-table-body .oxd-table-card');
   }
 
   // --- Domain actions ---
@@ -44,7 +44,8 @@ export class PIMListPage extends StaticRoutePage {
   async deleteEmployeeById(employeeId: string): Promise<void> {
     await step(`Удаление сотрудника по ID: ${employeeId}`, async () => {
       const row = this.employeeRowById(employeeId);
-      await row.locator('button:has(i.bi-trash)').click();
+      // Action buttons in OXD rows have no accessible name - locate by icon class.
+      await row.locator(`button:has(${OXD.icons.trash})`).click();
       await this.deleteModal.confirm();
     });
   }
@@ -53,7 +54,7 @@ export class PIMListPage extends StaticRoutePage {
 
   async assertSearchHasResults(): Promise<void> {
     await step('Проверка наличия результатов поиска', () =>
-      expect(this.tableCards.first()).toBeVisible()
+      expect(this.table.getFirstRow()).toBeVisible()
     );
   }
 
@@ -81,6 +82,6 @@ export class PIMListPage extends StaticRoutePage {
   // --- Private helpers ---
 
   private employeeRowById(employeeId: string): Locator {
-    return this.tableCards.filter({ hasText: employeeId });
+    return this.table.getRowByText(employeeId);
   }
 }

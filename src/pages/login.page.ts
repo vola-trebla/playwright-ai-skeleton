@@ -3,6 +3,7 @@ import { StaticRoutePage } from '@/core/static-route.page';
 import { Routes } from '@/constants/routes';
 import { LoginLabels } from '@/constants/login';
 import { LoginMessages } from '@/constants/messages';
+import { OXD } from '@/constants/oxd-selectors';
 import { step } from '@/core/step';
 
 export class LoginPage extends StaticRoutePage {
@@ -16,11 +17,11 @@ export class LoginPage extends StaticRoutePage {
 
   constructor(page: Page) {
     super(page);
-    this.logo = page.locator('.orangehrm-login-branding img');
+    this.logo = page.locator(OXD.login.brandingLogo);
     this.usernameInput = page.getByPlaceholder(LoginLabels.username);
     this.passwordInput = page.getByPlaceholder(LoginLabels.password);
     this.loginBtn = page.getByRole('button', { name: LoginLabels.loginButton });
-    this.errorMessage = page.locator('.oxd-alert-content-text');
+    this.errorMessage = page.getByRole('alert');
   }
 
   // --- Domain actions ---
