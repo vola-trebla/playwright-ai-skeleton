@@ -19,7 +19,7 @@ export class OrangeTable extends BaseComponent {
   }
 
   async getRowCount(): Promise<number> {
-    return step('Получение количества строк в таблице', () => this.rows.count());
+    return step('Get table row count', () => this.rows.count());
   }
 
   getRowByText(text: string): Locator {
@@ -35,7 +35,7 @@ export class OrangeTable extends BaseComponent {
   }
 
   async sortByColumn(columnName: string): Promise<void> {
-    await step(`Сортировка по колонке: ${columnName}`, async () => {
+    await step(`Sort by column: ${columnName}`, async () => {
       await this.root.locator(OXD.table.columnHeader).filter({ hasText: columnName }).click();
     });
   }

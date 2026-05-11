@@ -13,7 +13,7 @@ export class DashboardPage extends BasePage {
   }
 
   async assertOpen(): Promise<void> {
-    await step('Проверка что Dashboard открыт', async () => {
+    await step('Verify Dashboard is open', async () => {
       await this.page.waitForURL((url) => url.pathname === Routes.dashboard.index);
       await expect(this.heading).toBeVisible();
     });

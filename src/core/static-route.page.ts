@@ -12,7 +12,7 @@ export abstract class StaticRoutePage extends BasePage {
   abstract readonly url: string;
 
   async navigate(): Promise<void> {
-    await step(`Переход на страницу: ${this.url}`, async () => {
+    await step(`Navigate to page: ${this.url}`, async () => {
       await this.page.goto(this.url);
       await this.waitForPageLoad();
     });

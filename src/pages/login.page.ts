@@ -24,24 +24,16 @@ export class LoginPage extends StaticRoutePage {
     this.errorMessage = page.getByRole('alert');
   }
 
-  // --- Domain actions ---
-
   async loginWithCredentials(username: string, password: string): Promise<void> {
-    await step('Попытка входа с credentials', async () => {
+    await step('Login with credentials', async () => {
       await this.usernameInput.fill(username);
       await this.passwordInput.fill(password);
       await this.loginBtn.click();
     });
   }
 
-  // --- Domain assertions ---
-
-  /**
-   * Verifies all visible elements of the login form. Uses expect.soft so every
-   * field contract is checked even if one fails - gives a full picture on breakage.
-   */
   async assertLoginFormReady(): Promise<void> {
-    await step('Проверка формы входа', async () => {
+    await step('Verify login form state', async () => {
       await expect.soft(this.logo).toBeVisible();
       await this.assertUsernameFieldContract();
       await this.assertPasswordFieldContract();
@@ -50,13 +42,11 @@ export class LoginPage extends StaticRoutePage {
   }
 
   async assertInvalidCredentialsShown(): Promise<void> {
-    await step('Проверка сообщения об ошибке', async () => {
+    await step('Assert invalid credentials message', async () => {
       await expect(this.page).toHaveURL(/auth\/login/);
       await expect(this.errorMessage).toContainText(LoginMessages.invalidCredentials);
     });
   }
-
-  // --- Private field contracts ---
 
   private async assertUsernameFieldContract(): Promise<void> {
     await expect.soft(this.usernameInput).toBeVisible();

@@ -5,7 +5,7 @@ test.describe(
   'Employee API fixture - smoke',
   { tag: [TestTags.smoke, TestTags.api, TestTags.pim] },
   () => {
-    test('создаёт сотрудника через API и находит его в списке', async ({
+    test('Creates employee via API and finds them in list', async ({
       testEmployee,
       pimListPage,
     }) => {

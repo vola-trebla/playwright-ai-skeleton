@@ -22,17 +22,14 @@ export class PIMListPage extends StaticRoutePage {
     super(page);
     this.table = new OrangeTable(page);
     this.deleteModal = new OrangeConfirmModal(page);
-    // OXD forms do not link <label for> - locate input by sibling label text.
     this.employeeIdInput = page
       .locator(`form ${OXD.form.inputGroup}`, { hasText: PIMLabels.employeeId })
       .locator('input');
     this.searchBtn = page.getByRole('button', { name: PIMLabels.search });
   }
 
-  // --- Domain actions ---
-
   async searchEmployeeById(id: string): Promise<void> {
-    await step(`Поиск сотрудника по ID: ${id}`, async () => {
+    await step(`Search employee by ID: ${id}`, async () => {
       const done = waitForApi(this.page, ApiEndpoints.pim.employees);
       await this.employeeIdInput.fill(id);
       await this.searchBtn.click();
@@ -41,45 +38,37 @@ export class PIMListPage extends StaticRoutePage {
   }
 
   async deleteEmployeeById(employeeId: string): Promise<void> {
-    await step(`Удаление сотрудника по ID: ${employeeId}`, async () => {
+    await step(`Delete employee by ID: ${employeeId}`, async () => {
       const row = this.employeeRowById(employeeId);
-      // Action buttons in OXD rows have no accessible name - locate by icon class.
       await row.locator(`button:has(${OXD.icons.trash})`).click();
       await this.deleteModal.confirm();
     });
   }
 
-  // --- Domain assertions ---
-
   async assertSearchHasResults(): Promise<void> {
-    await step('Проверка наличия результатов поиска', () =>
-      expect(this.table.getFirstRow()).toBeVisible()
-    );
+    await step('Assert search has results', () => expect(this.table.getFirstRow()).toBeVisible());
   }
 
   async assertEmployeeVisible(employee: CreatedEmployee): Promise<void> {
-    await step(`Проверка наличия сотрудника ${employee.employeeId} в таблице`, async () => {
+    await step(`Assert employee ${employee.employeeId} is visible`, async () => {
       const row = this.employeeRowById(employee.employeeId);
       await expect(row).toBeVisible();
-      // soft: report both field failures at once if the row content is wrong
       await expect.soft(row).toContainText(employee.firstName);
       await expect.soft(row).toContainText(employee.lastName);
     });
   }
 
   async assertEmployeeVisibleById(employeeId: string): Promise<void> {
-    await step(`Проверка наличия строки с ID ${employeeId} в таблице`, () =>
+    await step(`Assert employee ID ${employeeId} is visible`, () =>
       expect(this.employeeRowById(employeeId)).toBeVisible()
     );
   }
 
   async assertEmployeeAbsent(employeeId: string): Promise<void> {
-    await step(`Проверка отсутствия сотрудника ${employeeId} в таблице`, () =>
+    await step(`Assert employee ${employeeId} is absent`, () =>
       expect(this.employeeRowById(employeeId)).toHaveCount(0)
     );
   }
-
-  // --- Private helpers ---
 
   private employeeRowById(employeeId: string): Locator {
     return this.table.getRowByText(employeeId);
