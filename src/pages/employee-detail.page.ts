@@ -1,8 +1,8 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from '@/core/base.page';
-import { config } from '@/config/env.config';
 import { Routes } from '@/constants/routes';
 import { ApiEndpoints } from '@/constants/api-endpoints';
+import { OXD } from '@/constants/oxd-selectors';
 import { step } from '@/core/step';
 
 export class EmployeeDetailPage extends BasePage {
@@ -14,7 +14,11 @@ export class EmployeeDetailPage extends BasePage {
     super(page);
     this.firstNameInput = page.locator('input[name="firstName"]');
     this.lastNameInput = page.locator('input[name="lastName"]');
-    this.saveBtn = page.locator('.oxd-form:has(input[name="firstName"]) button[type="submit"]');
+    // Scope save button to the personal-details form (page also has secondary forms).
+    this.saveBtn = page
+      .locator(OXD.form.root)
+      .filter({ has: this.firstNameInput })
+      .locator('button[type="submit"]');
   }
 
   // --- Domain actions ---
@@ -24,7 +28,7 @@ export class EmployeeDetailPage extends BasePage {
       const waitForLoad = this.page.waitForResponse(
         (r) => r.url().includes(ApiEndpoints.pim.personalDetails(empNumber)) && r.ok()
       );
-      await this.page.goto(`${config.BASE_URL}${Routes.pim.personalDetails(empNumber)}`);
+      await this.page.goto(Routes.pim.personalDetails(empNumber));
       await waitForLoad;
       await expect(this.firstNameInput).toBeVisible();
     });

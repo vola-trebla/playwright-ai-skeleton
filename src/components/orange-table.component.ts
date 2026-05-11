@@ -1,41 +1,42 @@
 import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '@/core/base.component';
+import { OXD } from '@/constants/oxd-selectors';
 import { step } from '@/core/step';
 
 /**
- * OrangeHRM-specific table component (uses .oxd-table selectors).
+ * OrangeHRM-specific table component. Owns OXD-class locators for table parts.
  */
 export class OrangeTable extends BaseComponent {
   private readonly rows: Locator;
 
-  constructor(page: Page, containerSelector: string = '.oxd-table') {
+  constructor(page: Page, containerSelector: string = OXD.table.root) {
     super(page, containerSelector);
-    this.rows = this.root.locator('tbody tr, .oxd-table-body .oxd-table-card');
+    this.rows = this.root.locator(OXD.table.row);
   }
 
-  async shouldNotBeEmpty(): Promise<void> {
+  async waitForData(): Promise<void> {
     await this.rows.first().waitFor({ state: 'visible' });
   }
 
   async getRowCount(): Promise<number> {
-    return await step('Получение количества строк в таблице', () => this.rows.count());
+    return step('Получение количества строк в таблице', () => this.rows.count());
   }
 
   getRowByText(text: string): Locator {
     return this.rows.filter({ hasText: text });
   }
 
+  getFirstRow(): Locator {
+    return this.rows.first();
+  }
+
   async getCellValue(row: number, column: number): Promise<string> {
-    return this.rows.nth(row).locator('.oxd-table-cell, td').nth(column).innerText();
+    return this.rows.nth(row).locator(OXD.table.cell).nth(column).innerText();
   }
 
   async sortByColumn(columnName: string): Promise<void> {
-    await this.root
-      .locator(`.oxd-table-header [role="columnheader"]:has-text("${columnName}")`)
-      .click();
-  }
-
-  async waitForData(): Promise<void> {
-    await this.rows.first().waitFor({ state: 'visible' });
+    await step(`Сортировка по колонке: ${columnName}`, async () => {
+      await this.root.locator(OXD.table.columnHeader).filter({ hasText: columnName }).click();
+    });
   }
 }
