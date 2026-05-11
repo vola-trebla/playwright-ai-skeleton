@@ -1,15 +1,23 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["@typescript-eslint", "playwright"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:playwright/recommended"
+  ],
   "rules": {
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "no-console": "off"
+    "no-console": "off",
+    "playwright/expect-expect": "off",
+    "playwright/no-wait-for-timeout": "error",
+    "playwright/no-element-handle": "error",
+    "playwright/prefer-web-first-assertions": "error",
+    "playwright/no-networkidle": "warn"
   },
   "env": {
-    "node": true,
-    "jest": true
+    "node": true
   }
 }

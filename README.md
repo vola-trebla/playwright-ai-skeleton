@@ -31,19 +31,26 @@ This is a production-grade automation framework designed for modern web applicat
 
 ```
 project-root/
-├── .github/workflows/       # CI/CD pipelines (Lint, Smoke, Nightly)
+├── .github/workflows/       # CI/CD pipelines (Lint + Typecheck, Smoke, Nightly)
+├── docs/
+│   ├── adr/                 # Architecture Decision Records
+│   └── CONVENTIONS.md       # Test naming, imports, selector and builder rules
 ├── src/
-│   ├── api/                 # Typed API clients and Zod schemas
-│   ├── config/              # Validated environment configuration
-│   ├── core/                # Framework engine and base classes
-│   ├── components/          # Domain-specific UI components (OrangeTable, etc.)
-│   ├── constants/           # Centralized routes, endpoints, and domain labels
-│   ├── pages/               # Domain-Driven Page Objects
-│   ├── fixtures/            # Modular Playwright fixtures (Auth, API, Page)
-│   ├── helpers/             # Data Builders and utility helpers
-│   └── reporters/           # Custom test reporters (Slack)
-├── tests/                   # Tiered test suites (Smoke, Critical, Regression)
-└── playwright.config.ts     # Global Playwright settings
+│   ├── api/                 # Typed API clients (EmployeeApiClient), Zod schemas, ApiError
+│   ├── config/              # Zod-validated environment configuration
+│   ├── core/                # Base classes: BasePage, BaseComponent, StaticRoutePage
+│   ├── components/          # Reusable UI components (OrangeTable)
+│   ├── constants/           # Routes, API endpoints, OXD selectors, test tags
+│   ├── pages/               # Page Objects (domain actions + assertions, no raw locators)
+│   ├── fixtures/            # Fixture chain: auth -> api -> page (worker-scoped auth)
+│   ├── helpers/             # BaseBuilder, EmployeeBuilder, waitForApi
+│   └── reporters/           # Custom Slack reporter with flaky-test detection
+├── tests/                   # Tiered spec suites
+│   ├── smoke/               # Fast sanity checks (PR gate)
+│   ├── critical/            # Happy-path end-to-end scenarios
+│   ├── regression/          # Negative and edge-case scenarios
+│   └── api/                 # Contract tests (API shape and semantics)
+└── playwright.config.ts     # Projects: smoke, api, regression-chrome
 ```
 
 ## 🚦 Getting Started
@@ -74,10 +81,13 @@ project-root/
 
 ## 📋 Engineering Standards
 
-- **Encapsulation**: Never expose raw Playwright locators or `expect` calls in spec files.
+- **Encapsulation**: Assertions and locators live in Page Objects. Spec files express domain intent only. See [ADR 0001](docs/adr/0001-domain-first-test-api.md).
+- **Fixture chain**: `authTest -> apiTest -> test` with worker-scoped storage state. See [ADR 0002](docs/adr/0002-fixture-architecture.md).
+- **Selector priority**: `getByRole` first, OXD CSS classes isolated to `src/constants/oxd-selectors.ts`, XPath prohibited. See [ADR 0003](docs/adr/0003-selector-strategy.md).
 - **Atomicity**: Tests are independent and manage their own data lifecycle via fixtures.
 - **Branching**: Strict "Feature Branch -> Pull Request" workflow enforced by the Git Workflow Manifesto.
-- **Type Safety**: No `any` type allowed. Strict TypeScript checking is part of the CI pipeline.
+- **Type Safety**: No `any` type allowed. Strict TypeScript checking (`noUncheckedIndexedAccess`, `noImplicitOverride`) is part of the CI pipeline.
+- **Conventions**: Test naming, import order, builder usage, tag constants - see [CONVENTIONS](docs/CONVENTIONS.md).
 
 ---
 
