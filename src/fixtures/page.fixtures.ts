@@ -1,10 +1,12 @@
 import { apiTest } from './api.fixtures';
 import { LoginPage } from '@/pages/login.page';
+import { DashboardPage } from '@/pages/dashboard.page';
 import { PIMListPage } from '@/pages/pim-list.page';
 import { EmployeeDetailPage } from '@/pages/employee-detail.page';
 
 export type PageFixtures = {
   loginPage: LoginPage;
+  dashboardPage: DashboardPage;
   pimListPage: PIMListPage;
   employeeDetailPage: EmployeeDetailPage;
 };
@@ -15,6 +17,7 @@ export type PageFixtures = {
  */
 export const test = apiTest.extend<PageFixtures>({
   loginPage: async ({ page }, use) => use(new LoginPage(page)),
+  dashboardPage: async ({ page }, use) => use(new DashboardPage(page)),
   pimListPage: async ({ page }, use) => use(new PIMListPage(page)),
   employeeDetailPage: async ({ page }, use) => use(new EmployeeDetailPage(page)),
 });
