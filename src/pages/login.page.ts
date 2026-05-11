@@ -2,7 +2,7 @@ import { Locator, Page, expect } from '@playwright/test';
 import { StaticRoutePage } from '@/core/static-route.page';
 import { Routes } from '@/constants/routes';
 import { LoginLabels } from '@/constants/login';
-import { LoginMessages, AppMessages } from '@/constants/messages';
+import { LoginMessages } from '@/constants/messages';
 import { step } from '@/core/step';
 
 export class LoginPage extends StaticRoutePage {
@@ -12,9 +12,6 @@ export class LoginPage extends StaticRoutePage {
   private readonly _usernameInput: Locator;
   private readonly _passwordInput: Locator;
   private readonly _loginBtn: Locator;
-  private readonly _forgotPasswordLink: Locator;
-  private readonly _socialIcons: Locator;
-  private readonly _copyrightText: Locator;
   private readonly _errorMessage: Locator;
 
   constructor(page: Page) {
@@ -23,18 +20,7 @@ export class LoginPage extends StaticRoutePage {
     this._usernameInput = page.getByPlaceholder(LoginLabels.username);
     this._passwordInput = page.getByPlaceholder(LoginLabels.password);
     this._loginBtn = page.getByRole('button', { name: LoginLabels.loginButton });
-    this._forgotPasswordLink = page.locator('.orangehrm-login-forgot-header');
-    this._socialIcons = page.locator('.orangehrm-login-footer-sm a');
-    this._copyrightText = page.locator('.orangehrm-copyright-wrapper');
     this._errorMessage = page.locator('.oxd-alert-content-text');
-  }
-
-  // Used by auth fixture
-  async login(username: string, password: string): Promise<void> {
-    await this._usernameInput.fill(username);
-    await this._passwordInput.fill(password);
-    await this._loginBtn.click();
-    await this.page.waitForURL(new RegExp(Routes.dashboard.index));
   }
 
   // --- Domain actions ---
@@ -55,14 +41,6 @@ export class LoginPage extends StaticRoutePage {
       await this.assertUsernameFieldContract();
       await this.assertPasswordFieldContract();
       await this.assertLoginButtonContract();
-    });
-  }
-
-  async assertFooterVisible(): Promise<void> {
-    await step('Проверка футера страницы входа', async () => {
-      await expect(this._forgotPasswordLink).toContainText(LoginMessages.forgotPasswordPrompt);
-      await expect(this._socialIcons).toHaveCount(4);
-      await expect(this._copyrightText).toContainText(AppMessages.copyrightVersion);
     });
   }
 
