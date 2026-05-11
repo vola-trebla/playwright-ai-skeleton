@@ -15,17 +15,14 @@ export class EmployeeDetailPage extends BasePage {
     super(page);
     this.firstNameInput = page.locator('input[name="firstName"]');
     this.lastNameInput = page.locator('input[name="lastName"]');
-    // Scope save button to the personal-details form (page also has secondary forms).
     this.saveBtn = page
       .locator(OXD.form.root)
       .filter({ has: this.firstNameInput })
       .locator('button[type="submit"]');
   }
 
-  // --- Domain actions ---
-
   async openEmployee(empNumber: number): Promise<void> {
-    await step(`Открытие карточки сотрудника #${empNumber}`, async () => {
+    await step(`Open employee details #${empNumber}`, async () => {
       const done = waitForApi(this.page, ApiEndpoints.pim.personalDetails(empNumber));
       await this.page.goto(Routes.pim.personalDetails(empNumber));
       await done;
@@ -34,7 +31,7 @@ export class EmployeeDetailPage extends BasePage {
   }
 
   async updateName(empNumber: number, first: string, last: string): Promise<void> {
-    await step(`Обновление имени на "${first} ${last}"`, async () => {
+    await step(`Update name to "${first} ${last}"`, async () => {
       await this.firstNameInput.fill(first);
       await this.lastNameInput.fill(last);
       const done = waitForApi(this.page, ApiEndpoints.pim.personalDetails(empNumber));
@@ -43,10 +40,8 @@ export class EmployeeDetailPage extends BasePage {
     });
   }
 
-  // --- Domain assertions ---
-
   async assertName(firstName: string, lastName: string): Promise<void> {
-    await step(`Проверка имени: "${firstName} ${lastName}"`, async () => {
+    await step(`Assert name is: "${firstName} ${lastName}"`, async () => {
       await expect(this.firstNameInput).toHaveValue(firstName);
       await expect(this.lastNameInput).toHaveValue(lastName);
     });

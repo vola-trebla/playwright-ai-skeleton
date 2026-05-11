@@ -21,14 +21,14 @@ export class OrangeConfirmModal extends BaseComponent {
   }
 
   async confirm(): Promise<void> {
-    await step('Подтверждение модального окна', async () => {
+    await step('Confirm modal dialog', async () => {
       await this.confirmBtn.click();
       await this.waitForHidden();
     });
   }
 
   async cancel(): Promise<void> {
-    await step('Отмена модального окна', async () => {
+    await step('Cancel modal dialog', async () => {
       await this.cancelBtn.click();
       await this.waitForHidden();
     });
