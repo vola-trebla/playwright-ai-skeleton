@@ -41,12 +41,10 @@ jobs:
       - uses: actions/checkout@v4
       - run: npm ci
       
-      /**
-       * 🐸 SKELETON NOTE:
-       * By default, these tests might fail if they require a real environment.
-       * In the skeleton, we run them against the projects defined in playwright.config.ts.
-       * Update BASE_URL and secrets when you connect your real app.
-       */
+      # 🐸 SKELETON NOTE:
+      # By default, these tests might fail if they require a real environment.
+      # In the skeleton, we run them against the projects defined in playwright.config.ts.
+      # Update BASE_URL and secrets when you connect your real app.
       - name: Run smoke tests
         # We run the 'chromium' and 'api' projects as a sanity check.
         # Since these are example tests, they should either pass or be skipped.
