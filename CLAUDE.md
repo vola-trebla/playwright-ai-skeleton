@@ -51,7 +51,7 @@ Understanding these patterns is essential before making any changes.
 ## 📋 Operational Workflows & Golden Rules
 
 1. **Git Workflow Manifesto**: Strictly follow the [Git Workflow Manifesto](.claude/rules/git-workflow-manifesto.md) for all repository operations.
-2. **Branch & PR Policy**: **NEVER push directly to `main`**. All changes must go through a feature branch and a Pull Request.
+2. **Branch & PR Policy**: **NEVER push directly to `main`**. Enforced by a PreToolUse hook in `.claude/settings.json` - any `git push ... main` command is blocked automatically. All changes must go through a feature branch and a Pull Request.
 3. **Commit Hygiene**: Husky + lint-staged will automatically run Prettier. Ensure all lint/type checks pass before pushing.
 4. **Security First**: Never hardcode credentials. Use `.env` (ignored by git) and validate via `src/config/env.config.ts`.
 5. **Atomic Tests**: Each test must be independent. Use fixtures for auth bypass and data management.
